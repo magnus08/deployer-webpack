@@ -9,8 +9,9 @@ class App extends React.Component {
     };
     render() {
         return (
-            <div className='App'>What?
-                <ProjectList/>
+            <div className='App'>
+                <img src={logo} className="App-logo" alt="logo" />
+                <ProjectList/> 
             </div>
         )
     };
