@@ -2,20 +2,17 @@ import React from 'react';
 import Toggler from './Toggler';
 class Project extends React.Component {
   state = {
-    on: false,
+    autoDeploy: false,
   };
 
-  on = () => {
+  toggleAutoDeploy = () => {
     this.setState(prevState => {
       return {
-        on: !prevState.on,
+        autoDeploy: !prevState.autoDeploy,
       }
     });
   };
 
-  handleToggleAutodeploy = () => (
-    this.props.onToggleAutoDeploy(this.props.id)
-  );
   handleRedeploy = () => (
     this.props.onRedeploy(this.props.id)
   );
@@ -28,16 +25,11 @@ class Project extends React.Component {
       <tr>
         <td className='center aligned'>
           <Toggler
-            on={this.state.on}
+            on={this.state.autoDeploy}
             onClass="toggle on icon"
             offClass="toggle off icon"
-            onClick={this.on}
+            onClick={this.toggleAutoDeploy}
           />
-        </td>
-        <td className='center aligned'>
-          <a onClick={this.handleToggleAutodeploy}>
-            <i className= { this.props.autoDeploy?'toggle on icon':'toggle off icon' } />
-          </a>
         </td>
         <td className='left aligned'>
           <p>
