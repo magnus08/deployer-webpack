@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Toggler from './Toggler';
 class Project extends React.Component {
     handleToggleAutodeploy = () => (
         this.props.onToggleAutoDeploy(this.props.id)
@@ -14,6 +14,9 @@ class Project extends React.Component {
     render() {
         return (
             <tr>
+              <td className='center aligned'>
+                  <Toggler onClass="toggle on icon" offClass="toggle off icon"/>
+              </td>
                 <td className='center aligned'>
                     <a onClick={this.handleToggleAutodeploy}>
                         <i className= { this.props.autoDeploy?'toggle on icon':'toggle off icon' } />
