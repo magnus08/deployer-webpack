@@ -1,14 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 class Toggler extends React.Component {
+  state = {
+    on: false
+  };
+
+  toggle = () => {
+    return (evt) => {
+      this.setState({
+        on: !this.state.on
+      })
+    }
+
+  }
+
   static propTypes = {
     onClass: PropTypes.string,
     offClass: PropTypes.string
   };
+
   render() {
     return (
-      <a onClick={this.handleToggleAutodeploy}>
-        <i className= { this.props.autoDeploy?this.props.onClass:this.props.offClass } />
+      <a onClick={this.toggle()}>
+        <i className= { this.state.on?this.props.onClass:this.props.offClass } />
       </a>
     );
   }
