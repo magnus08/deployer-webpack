@@ -5,12 +5,10 @@ class Toggler extends React.Component {
     on: false
   };
 
-  toggle = () => {
-    return (evt) => {
-      this.setState({
-        on: !this.state.on
-      })
-    }
+  toggle = (evt) => {
+    this.setState({
+      on: !this.state.on
+    })
 
   }
 
@@ -21,7 +19,7 @@ class Toggler extends React.Component {
 
   render() {
     return (
-      <a onClick={this.toggle()}>
+      <a onClick={this.toggle}>
         <i className= { this.state.on?this.props.onClass:this.props.offClass } />
       </a>
     );
