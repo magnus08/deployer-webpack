@@ -1,25 +1,6 @@
 import React from 'react';
 import Toggler from './Toggler';
 class Project extends React.Component {
-  state = {
-    autoDeploy: false,
-  };
-
-  toggleAutoDeploy = () => {
-    this.setState(prevState => {
-      return {
-        autoDeploy: !prevState.autoDeploy,
-      }
-    });
-  };
-
-  handleRedeploy = () => (
-    this.props.onRedeploy(this.props.id)
-  );
-  handleRebuild = () => (
-    this.props.onRebuild(this.props.id)
-  );
-
   render() {
     return (
       <tr>
@@ -28,7 +9,7 @@ class Project extends React.Component {
             on={this.props.autoDeploy}
             onClass="toggle on icon"
             offClass="toggle off icon"
-            onClick={(id) => (
+            onClick={() => (
               window.store.dispatch({
                 type: 'TOGGLE_PROJECT_AUTODEPLOY',
                 id: this.props.id,
@@ -42,12 +23,22 @@ class Project extends React.Component {
           </p>
         </td>
         <td className='center aligned'>
-          <a onClick={this.handleRedeploy}>
+          <a onClick={() => (
+            window.store.dispatch({
+              type: 'TRIGGER_PROJECT_REDEPLOY',
+              id: this.props.id,
+            })
+          )}>
             <i className= { this.props.redeploying?'hourglass half icon':'refresh icon' } />
           </a>
         </td>
         <td className='center aligned'>
-          <a onClick={this.handleRebuild}>
+          <a onClick={() => (
+            window.store.dispatch({
+              type: 'TRIGGER_PROJECT_REBUILD',
+              id: this.props.id,
+            })
+          )}>
             <i className= { this.props.rebuilding?'hourglass half icon':'recycle icon' } />
           </a>
         </td>

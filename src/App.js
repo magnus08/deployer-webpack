@@ -38,7 +38,6 @@ function projectReducer(state = [], action) {
       }
     ];
   } else if (action.type === 'TOGGLE_PROJECT_AUTODEPLOY') {
-
     // TODO: This is most likely the wrong way of changing state
     console.log("ProjectReducer: TOGGLE_PROJECT_AUTODEPLOY", action);
     const id = action.id;
@@ -52,7 +51,7 @@ function projectReducer(state = [], action) {
     const project = state[index];
     const newProject = {
       ...project,
-      autoDeploy: !project.autoDeploy 
+      autoDeploy: !project.autoDeploy
     }
 
     return [
@@ -61,7 +60,54 @@ function projectReducer(state = [], action) {
       ...state.slice(
         index + 1, state.length
       ),
+    ]
+  } else if (action.type === 'TRIGGER_PROJECT_REBUILD') {
+    // TODO: This is most likely the wrong way of changing state
+    console.log("ProjectReducer: TRIGGER_PROJECT_REBUILD", action);
+    const id = action.id;
+    const index = state.findIndex(
+      (p) => p.id === action.id
+    );
+    if(index == -1) {
+      console.log("Cant find index for id ", id);
+      return state;
+    }
+    const project = state[index];
+    const newProject = {
+      ...project,
+      rebuilding: true
+    }
 
+    return [
+      ...state.slice(0, index),
+      newProject,
+      ...state.slice(
+        index + 1, state.length
+      ),
+    ]
+  } else if (action.type === 'TRIGGER_PROJECT_REDEPLOY') {
+    // TODO: This is most likely the wrong way of changing state
+    console.log("ProjectReducer: TRIGGER_PROJECT_REDEPLOY", action);
+    const id = action.id;
+    const index = state.findIndex(
+      (p) => p.id === action.id
+    );
+    if(index == -1) {
+      console.log("Cant find index for id ", id);
+      return state;
+    }
+    const project = state[index];
+    const newProject = {
+      ...project,
+      redeploying: true
+    }
+
+    return [
+      ...state.slice(0, index),
+      newProject,
+      ...state.slice(
+        index + 1, state.length
+      ),
     ]
   } else {
     return state;
