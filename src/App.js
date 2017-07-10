@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { createStore, combineReducers } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import logo from './logo.svg';
 import './App.css';
 import ProjectList from './ProjectList';
@@ -51,13 +52,26 @@ function projectReducer(state = [], action) {
       }
     })
   } else if (action.type === 'TRIGGER_PROJECT_REBUILD') {
-    console.log("ProjectReducer: TOGGLE_PROJECT_AUTODEPLOY", action);
+    console.log("ProjectReducer: TRIGGER_PROJECT_REBUILD", action);
     const id = action.id;
     return state.map((project) => {
       if(id === project.id) {
         return {
           ...project,
           rebuilding: true
+        }
+      } else {
+        return project;
+      }
+    })
+  } else if (action.type === 'PROJECT_REBUILD_DONE') {
+    console.log("ProjectReducer: PROJECT_REBUILD", action);
+    const id = action.id;
+    return state.map((project) => {
+      if(id === project.id) {
+        return {
+          ...project,
+          rebuilding: false
         }
       } else {
         return project;
@@ -77,12 +91,32 @@ function projectReducer(state = [], action) {
         return project;
       }
     })
+  } else if (action.type === 'PROJECT_DEPLOY_DONE') {
+    // TODO: This is most likely the wrong way of changing state
+    console.log("ProjectReducer: PROJECT_DEPLOY_DONE", action);
+    const id = action.id;
+    return state.map((project) => {
+      if(id === project.id) {
+        return {
+          ...project,
+          redeploying: false
+        }
+      } else {
+        return project;
+      }
+    })
   } else {
     return state;
   }
 }
 
-const store = createStore(reducer);
+const store = createStore(
+  reducer,
+  applyMiddleware(
+    thunkMiddleware
+  )
+);
+
 window.store = store; // TODO: How do i make store accessible globally?
 
 class App extends React.Component {
