@@ -52,7 +52,7 @@ function projectReducer(state = [], action) {
     const project = state[index];
     const newProject = {
       ...project,
-      autoDeploy: true // TODO: Toggle
+      autoDeploy: !project.autoDeploy 
     }
 
     return [
