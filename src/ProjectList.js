@@ -4,8 +4,6 @@ import Client from './Client';
 
 class ProjectList extends React.Component {
   componentDidMount() {
-    // this.loadProjectsFromServer();
-    // this.setState({ projects: Seed.projects });
     window.store.subscribe(() => this.forceUpdate());
     window.store.dispatch({
       type: 'READ_PROJECTS'
@@ -13,75 +11,10 @@ class ProjectList extends React.Component {
 
   };
 
-  loadProjectsFromServer = () => {
+  loadProjectsFromServer = () => { // TODO: This will be rewritten, not used atm
     Client.getProjects((serverProjects) => (
       this.setState({ projects: serverProjects })
     ))
-  }
-
-  handleProjectToggleAutodeploy = (projectId) => {
-    const nextProjects = this.state.projects.map((project) => {
-      if (project.id === projectId) {
-        return Object.assign({}, project, {
-          autoDeploy: !project.autoDeploy,
-        });
-      } else {
-        return project;
-      }
-    });
-    this.setState({
-      projects: nextProjects,
-    });
-
-    console.log(projectId + ' was toggled, new state = ', nextProjects);
-  };
-
-  updateRedeploy = (projectId, value)  => {
-    console.log("Update redeploy ", projectId, value);
-    const nextProjects = this.state.projects.map((project) => {
-      if (project.id === projectId) {
-        return Object.assign({}, project, {
-          redeploying: value,
-        });
-      } else {
-        return project;
-      }
-    });
-    this.setState({
-      projects: nextProjects,
-    });
-  }
-
-  updateRebuild = (projectId, value)  => {
-    console.log("Update rebuild ", projectId, value);
-    const nextProjects = this.state.projects.map((project) => {
-      if (project.id === projectId) {
-        return Object.assign({}, project, {
-          rebuilding: value,
-        });
-      } else {
-        return project;
-      }
-    });
-    this.setState({
-      projects: nextProjects,
-    });
-  }
-
-  handleProjectRedeploy = (projectId) => {
-    this.updateRedeploy(projectId, true);
-    Client.redeploy(projectId)
-    .then(
-      () => this.updateRedeploy(projectId, false)
-    );
-  }
-
-  handleProjectRebuild = (projectId) => {
-    this.updateRebuild(projectId, true);
-    Client.rebuild(projectId)
-    .then(
-      () => this.updateRebuild(projectId, false)
-    );
   }
 
   render() {
@@ -99,9 +32,6 @@ class ProjectList extends React.Component {
         autoDeploy={project.autoDeploy}
         redeploying={project.redeploying}
         rebuilding={project.rebuilding}
-        onToggleAutoDeploy={this.handleProjectToggleAutodeploy}
-        onRedeploy={this.handleProjectRedeploy}
-        onRebuild={this.handleProjectRebuild}
       />
     ));
     return (
