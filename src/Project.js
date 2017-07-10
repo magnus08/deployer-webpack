@@ -13,12 +13,7 @@ class Project extends React.Component {
             on={this.props.autoDeploy}
             onClass="toggle on icon"
             offClass="toggle off icon"
-            // onClick={() => (
-            //   dispatch(props.toggleAutoDeploy)({
-            //     type: 'TOGGLE_PROJECT_AUTODEPLOY',
-            //     id: this.props.id,
-            //   })
-            // )}
+            onClick={() => this.props.actionAutoDeploy(this.props.id)}
           />
         </td>
         <td className='left aligned'>
@@ -33,57 +28,57 @@ class Project extends React.Component {
         </td>
         <td className='center aligned'>
           <a onClick={() => this.props.actionRebuild(this.props.id)}>
-              <i className= { this.props.rebuilding?'hourglass half icon':'recycle icon' } />
-            </a>
-          </td>
-        </tr>
-      );
-    }
+            <i className= { this.props.rebuilding?'hourglass half icon':'recycle icon' } />
+          </a>
+        </td>
+      </tr>
+    );
   }
+}
 
-  const mapStateToProps = (state) => {
-    const projects = state.projects;
+const mapStateToProps = (state) => {
+  const projects = state.projects;
 
-    return {
-      projects,
-    };
+  return {
+    projects,
   };
+};
 
-  const mapDispatchToProps = (dispatch) => {
-    // TODO: I have no clue why i need to use bindActionCreators here, it should just work with thunks
-    return bindActionCreators({
-      actionRedeploy: (id) => {
-        return function(dispatch) {
-          dispatch({
-            type: 'TRIGGER_PROJECT_REDEPLOY',
-            id: id
-          });
-          return setTimeout(() => dispatch(
-            {
-              type: 'PROJECT_DEPLOY_DONE',
-              id: id
-            }), 2000)
-        }
-      },
-      actionRebuild: (id) => {
-        return function(dispatch) {
-          dispatch({
-            type: 'TRIGGER_PROJECT_REBUILD',
-            id: id
-          });
-          return setTimeout(() => dispatch(
-            {
-              type: 'PROJECT_REBUILD_DONE',
-              id: id
-            }), 4000)
-        }
+const mapDispatchToProps = (dispatch) => {
+  // TODO: I have no clue why i need to use bindActionCreators here, it should just work with thunks
+  return bindActionCreators({
+    actionAutoDeploy: (id) => (
+      {
+        type: 'TOGGLE_PROJECT_AUTODEPLOY',
+        id: id
       }
+    ),
+    actionRedeploy: (id) => (dispatch) => {
+      dispatch({
+        type: 'TRIGGER_PROJECT_REDEPLOY',
+        id: id
+      });
+      return setTimeout(() => dispatch(
+        {
+          type: 'PROJECT_DEPLOY_DONE',
+          id: id
+        }), 2000)
+      },
+      actionRebuild: (id) => (dispatch) => {
+        dispatch({
+          type: 'TRIGGER_PROJECT_REBUILD',
+          id: id
+        });
+        return setTimeout(() => dispatch(
+          {
+            type: 'PROJECT_REBUILD_DONE',
+            id: id
+          }), 4000)
+        }
+      }, dispatch)
+    }
 
-    }, dispatch)
-  }
-
-
-  export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Project);
+    export default connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Project);
