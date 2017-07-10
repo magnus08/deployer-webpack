@@ -22,14 +22,20 @@ class Project extends React.Component {
           </p>
         </td>
         <td className='center aligned'>
-          <a onClick={() => this.props.actionRedeploy(this.props.id)}>
-            <i className= { this.props.redeploying?'hourglass half icon':'refresh icon' } />
-          </a>
+          <Toggler
+            on={this.props.redeploying}
+            onClass="hourglass half icon"
+            offClass="refresh icon"
+            onClick={() => this.props.actionRedeploy(this.props.id)}
+          />
         </td>
         <td className='center aligned'>
-          <a onClick={() => this.props.actionRebuild(this.props.id)}>
-            <i className= { this.props.rebuilding?'hourglass half icon':'recycle icon' } />
-          </a>
+          <Toggler
+            on={this.props.rebuilding}
+            onClass="hourglass half icon"
+            offClass="recycle icon"
+            onClick={() => this.props.actionRebuild(this.props.id)}
+          />
         </td>
       </tr>
     );
