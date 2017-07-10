@@ -3,43 +3,40 @@ import Toggler from './Toggler';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-class Project extends React.Component {
-
-  render() {
-    return (
-      <tr>
-        <td className='center aligned'>
-          <Toggler
-            on={this.props.autoDeploy}
-            onClass="toggle on icon"
-            offClass="toggle off icon"
-            onClick={() => this.props.actionAutoDeploy(this.props.id)}
-          />
-        </td>
-        <td className='left aligned'>
-          <p>
-            {this.props.title}
-          </p>
-        </td>
-        <td className='center aligned'>
-          <Toggler
-            on={this.props.redeploying}
-            onClass="hourglass half icon"
-            offClass="refresh icon"
-            onClick={() => this.props.actionRedeploy(this.props.id)}
-          />
-        </td>
-        <td className='center aligned'>
-          <Toggler
-            on={this.props.rebuilding}
-            onClass="hourglass half icon"
-            offClass="recycle icon"
-            onClick={() => this.props.actionRebuild(this.props.id)}
-          />
-        </td>
-      </tr>
-    );
-  }
+const Project = (props) => {
+  return (
+    <tr>
+      <td className='center aligned'>
+        <Toggler
+          on={props.autoDeploy}
+          onClass="toggle on icon"
+          offClass="toggle off icon"
+          onClick={() => props.actionAutoDeploy(props.id)}
+        />
+      </td>
+      <td className='left aligned'>
+        <p>
+          {props.title}
+        </p>
+      </td>
+      <td className='center aligned'>
+        <Toggler
+          on={props.redeploying}
+          onClass="hourglass half icon"
+          offClass="refresh icon"
+          onClick={() => props.actionRedeploy(props.id)}
+        />
+      </td>
+      <td className='center aligned'>
+        <Toggler
+          on={props.rebuilding}
+          onClass="hourglass half icon"
+          offClass="recycle icon"
+          onClick={() => props.actionRebuild(props.id)}
+        />
+      </td>
+    </tr>
+  );
 }
 
 const mapStateToProps = (state) => {
