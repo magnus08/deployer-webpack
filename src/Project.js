@@ -25,10 +25,15 @@ class Project extends React.Component {
       <tr>
         <td className='center aligned'>
           <Toggler
-            on={this.state.autoDeploy}
+            on={this.props.autoDeploy}
             onClass="toggle on icon"
             offClass="toggle off icon"
-            onClick={this.toggleAutoDeploy}
+            onClick={(id) => (
+              window.store.dispatch({
+                type: 'TOGGLE_PROJECT_AUTODEPLOY',
+                id: this.props.id,
+              })
+            )}
           />
         </td>
         <td className='left aligned'>
