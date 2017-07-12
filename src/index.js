@@ -4,11 +4,9 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import './index.css';
 import './semantic-ui/semantic.min.css';
-import registerServiceWorker from './registerServiceWorker';
 import thunkMiddleware from 'redux-thunk';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux'
-import { render } from 'react-dom'
 import App from './App'
 
 const reducer = combineReducers({
@@ -46,75 +44,31 @@ function projects(state = [], action) {
       }
     ];
   } else if (action.type === 'TOGGLE_PROJECT_AUTODEPLOY') {
-    console.log("ProjectReducer: TOGGLE_PROJECT_AUTODEPLOY", action);
-    const id = action.id;
-    return state.map((project) => {
-      if(id === project.id) {
-        return {
-          ...project,
-          autoDeploy: !project.autoDeploy
-        }
-      } else {
-        return project;
-      }
-    })
+    return updateProp(state, action.id, 'autoDeploy', (project) => !project.autoDeploy);
   } else if (action.type === 'TRIGGER_PROJECT_REBUILD') {
-    console.log("ProjectReducer: TRIGGER_PROJECT_REBUILD", action);
-    const id = action.id;
-    return state.map((project) => {
-      if(id === project.id) {
-        return {
-          ...project,
-          rebuilding: true
-        }
-      } else {
-        return project;
-      }
-    })
+    return updateProp(state, action.id, 'rebuilding', (project) => true);
   } else if (action.type === 'PROJECT_REBUILD_DONE') {
-    console.log("ProjectReducer: PROJECT_REBUILD", action);
-    const id = action.id;
-    return state.map((project) => {
-      if(id === project.id) {
-        return {
-          ...project,
-          rebuilding: false
-        }
-      } else {
-        return project;
-      }
-    })
+    return updateProp(state, action.id, 'rebuilding', (project) => false);
   } else if (action.type === 'TRIGGER_PROJECT_REDEPLOY') {
-    // TODO: This is most likely the wrong way of changing state
-    console.log("ProjectReducer: TRIGGER_PROJECT_REDEPLOY", action);
-    const id = action.id;
-    return state.map((project) => {
-      if(id === project.id) {
-        return {
-          ...project,
-          redeploying: true
-        }
-      } else {
-        return project;
-      }
-    })
+    return updateProp(state, action.id, 'redeploying', (project) => true);
   } else if (action.type === 'PROJECT_DEPLOY_DONE') {
-    // TODO: This is most likely the wrong way of changing state
-    console.log("ProjectReducer: PROJECT_DEPLOY_DONE", action);
-    const id = action.id;
-    return state.map((project) => {
-      if(id === project.id) {
-        return {
-          ...project,
-          redeploying: false
-        }
-      } else {
-        return project;
-      }
-    })
+    return updateProp(state, action.id, 'redeploying', (project) => false);
   } else {
     return state;
   }
+}
+
+function updateProp(xs, id, prop, updateFn, idProp = 'id') {
+    return xs.map((x) => {
+      if(id === x[idProp]) {
+        return {
+          ...x,
+          [prop]: updateFn(x)
+        }
+      } else {
+        return x;
+      }
+    });
 }
 
 const store = createStore(

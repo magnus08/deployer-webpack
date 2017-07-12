@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import thunkMiddleware from 'redux-thunk';
 import logo from './logo.svg';
 import './App.css';
 import ProjectList from './ProjectList';
 import {connect} from 'react-redux'
 
 
-class App extends React.Component {
+class App extends Component {
   componentDidMount() {
     this.props.fetchProjects(); // TODO: Should we really intialize here?
   }
