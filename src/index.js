@@ -12,10 +12,10 @@ import { render } from 'react-dom'
 import App from './App'
 
 const reducer = combineReducers({
-  projects: projectReducer
+  projects
 });
 
-function projectReducer(state = [], action) {
+function projects(state = [], action) {
   console.log("action: ", action);
   if (action.type === 'READ_PROJECTS') {
     console.log("ProjectReducer: READ_PROJECTS");
