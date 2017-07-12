@@ -22,7 +22,7 @@ function projects(state = {projects: [], initializing: false}, action) {
       initializing: false,
       projects: action.projects
     };
-  } else if (action.type === 'READING_PROJECT') {
+  } else if (action.type === 'READING_PROJECTS') {
     return {
       ...state,
       initializing: true
