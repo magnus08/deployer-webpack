@@ -20,19 +20,50 @@ class App extends Component {
 }
 
 const fetchProjects = () => {
-    return (dispatch) => {
-        return dispatch({
-          type: 'READ_PROJECTS'
-        });
-        // return fetch(url).then((response) => {
-        //     dispatch({
-        //          type: 'AAA',
-        //          payload: {
-        //              response.json()
-        //          }
-        //     });
-        // });
+  const projects = [
+    {
+      "autoDeploy": false,
+      "id": 1,
+      "path": "",
+      "rebuilding": false,
+      "redeploying": false,
+      "title": "leweb"
+    },
+    {
+      "autoDeploy": false,
+      "id": 2,
+      "path": "",
+      "rebuilding": false,
+      "redeploying": false,
+      "title": "boweb"
+    },
+    {
+      "autoDeploy": false,
+      "id": 3,
+      "path": "",
+      "rebuilding": false,
+      "redeploying": false,
+      "title": "cpweb"
     }
+  ];
+
+  return (dispatch) => {
+    dispatch({
+      type: 'READING_PROJECTS'
+    });
+    setTimeout(() => dispatch({
+      type: 'READ_PROJECTS',
+      projects
+    }), 2000);
+    // return fetch(url).then((response) => {
+    //     dispatch({
+    //          type: 'AAA',
+    //          payload: {
+    //              response.json()
+    //          }
+    //     });
+    // });
+  }
 };
 
 const mapStateToProps = (state, ownProps) => (

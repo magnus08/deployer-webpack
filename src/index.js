@@ -13,46 +13,45 @@ const reducer = combineReducers({
   projects
 });
 
-function projects(state = [], action) {
+function projects(state = {projects: [], initializing: false}, action) {
   console.log("action: ", action);
   if (action.type === 'READ_PROJECTS') {
-    console.log("ProjectReducer: READ_PROJECTS");
-    return [
-      {
-        "autoDeploy": false,
-        "id": 1,
-        "path": "",
-        "rebuilding": false,
-        "redeploying": false,
-        "title": "leweb"
-      },
-      {
-        "autoDeploy": false,
-        "id": 2,
-        "path": "",
-        "rebuilding": false,
-        "redeploying": false,
-        "title": "boweb"
-      },
-      {
-        "autoDeploy": false,
-        "id": 3,
-        "path": "",
-        "rebuilding": false,
-        "redeploying": false,
-        "title": "cpweb"
-      }
-    ];
+    console.log("ProjectReducer: READ_PROJECTS", action);
+    return {
+      ...state,
+      initializing: false,
+      projects: action.projects
+    };
+  } else if (action.type === 'READING_PROJECT') {
+    return {
+      ...state,
+      initializing: true
+    };
   } else if (action.type === 'TOGGLE_PROJECT_AUTODEPLOY') {
-    return updateProp(state, action.id, 'autoDeploy', (project) => !project.autoDeploy);
+    return {
+      ...state,
+      projects: updateProp(state.projects, action.id, 'autoDeploy', (project) => !project.autoDeploy)
+    };
   } else if (action.type === 'TRIGGER_PROJECT_REBUILD') {
-    return updateProp(state, action.id, 'rebuilding', (project) => true);
+    return {
+      ...state,
+      projects: updateProp(state.projects, action.id, 'rebuilding', (project) => true)
+    }
   } else if (action.type === 'PROJECT_REBUILD_DONE') {
-    return updateProp(state, action.id, 'rebuilding', (project) => false);
+    return {
+      ...state,
+      projects: updateProp(state.projects, action.id, 'rebuilding', (project) => false)
+    }
   } else if (action.type === 'TRIGGER_PROJECT_REDEPLOY') {
-    return updateProp(state, action.id, 'redeploying', (project) => true);
+    return {
+      ...state,
+      projects: updateProp(state.projects, action.id, 'redeploying', (project) => true)
+    }
   } else if (action.type === 'PROJECT_DEPLOY_DONE') {
-    return updateProp(state, action.id, 'redeploying', (project) => false);
+    return {
+      ...state,
+      projects: updateProp(state.projects, action.id, 'redeploying', (project) => false)
+    }
   } else {
     return state;
   }

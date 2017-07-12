@@ -45,11 +45,12 @@ const ProjectList = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  const projects = state.projects;
-
-  return {
-    projects,
-  };
+  const props = {
+    projects: state.projects.projects,
+    initializing: state.projects.initializing
+  }
+  debugger;
+  return props;
 };
 
 const mapDispatchToProps = (dispatch) => {
