@@ -1,6 +1,5 @@
 import React from 'react';
 import Project from './Project';
-import Client from './Client';
 import {connect} from 'react-redux'
 
 const ProjectList = (props) => {
@@ -16,12 +15,6 @@ const ProjectList = (props) => {
       rebuilding={project.rebuilding}
     />
   ));
-
-  const componentDidMount = () => {
-    console.log("ComponentDidMount!!!");
-    // dispatch({ type: "READ_PROJECTS" })
-  }
-
 
   return (
     <div className='ui one column relaxed grid'>
@@ -49,7 +42,6 @@ const mapStateToProps = (state) => {
     projects: state.projects.projects,
     initializing: state.projects.initializing
   }
-  debugger;
   return props;
 };
 
